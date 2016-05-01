@@ -19,8 +19,8 @@ sh iptables-vpn.sh
 rm -f iptables-vpn.sh
 
 wget -O /etc/dnsmasq.conf https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/dnsmasq.conf
-wget -O ~/vpn_server.config https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/vpn_server.config
-vpncmd 127.0.0.1:5555 /SERVER /CMD:ConfigSet ~/vpn_server
+wget vpn_server.config https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/vpn_server.config
+vpncmd 127.0.0.1:5555 /SERVER /CMD:ConfigSet vpn_server
 service vpnserver restart
 service dnsmasq restart
 
