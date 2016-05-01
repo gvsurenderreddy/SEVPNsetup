@@ -20,7 +20,7 @@ rm -f iptables-vpn.sh
 
 wget -O /etc/dnsmasq.conf https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/dnsmasq.conf
 wget -O ~/vpn_server.config https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/vpn_server.config
-vpncmd 127.0.0.1:5555 /SERVER /CMD:ConfigSet ~/vpn_server.config
+vpncmd 127.0.0.1:5555 /SERVER /CMD:ConfigSet ~/vpn_server
 service vpnserver restart
 service dnsmasq restart
 
@@ -29,7 +29,7 @@ chmod +x /usr/bin/spruunge
 wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/globe.txt
 wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/tnt.txt
 wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/udp.txt
-vpncmd 127.0.0.1:5555 /SERVER /PASSWORD:vpnserver /CMD:OpenVpnMakeConfig openvpn
+vpncmd 127.0.0.1:5555 /SERVER /CMD:OpenVpnMakeConfig openvpn
 unzip openvpn.zip
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 GLOBE_MGC="$(cat globe.txt)"
@@ -58,6 +58,7 @@ sed -i "s#<ca>#$TNT#" *tcp_tnt.ovpn
 sed -i "s#<ca>#$GLOBE_INET#" *udp_globe_inet.ovpn
 
 wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/getconfig.sh
+chmod +x getconfig.sh
 rm -f *.txt
 rm -f *.pdf
 
