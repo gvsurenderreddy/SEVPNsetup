@@ -9,26 +9,27 @@ apt-get install -y unzip curl git dnsmasq bc make gcc openssl build-essential up
 service softether_vpn stop
 update-rc.d softether_vpnserver remove
 rm -f /etc/init.d/softether_vpnserver
-wget -O /etc/init.d/softether_vpnserver https://github.com/bjdag1234/SEVPNsetup/edit/master/vpnserver.init
+wget -O /etc/init.d/softether_vpnserver https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/vpnserver.init
 chmod +x /etc/init.d/softether_vpnserver
 update-rc.d softether_vpnserver defaults
 
-wget https://github.com/bjdag1234/SEVPNsetup/edit/master/iptables-vpn.sh
+wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/iptables-vpn.sh
 chmod +x iptables-vpn.sh
 sh iptables-vpn.sh
+rm -f iptables-vpn.sh
 
-wget -O /etc/dnsmasq.conf https://github.com/bjdag1234/SEVPNsetup/edit/master/dnsmasq.conf
-service softether_vpn stop
-wget -O /opt/vpnserver/vpn_server.config https://github.com/bjdag1234/SEVPNsetup/edit/master/vpn_server.config
-service softether-vpnserver start
+wget -O /etc/dnsmasq.conf https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/dnsmasq.conf
+wget -O ~/vpn_server.config https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/vpn_server.config
+vpncmd 127.0.0.1:5555 /SERVER /CMD:ConfigSet ~/vpn_server.config
+service vpnserver restart
 service dnsmasq restart
 
-wget https://github.com/bjdag1234/SEVPNsetup/edit/master/scrunge.sh
-chmod +x scrunge.sh
-wget https://github.com/bjdag1234/SEVPNsetup/edit/master/globe.txt
-wget https://github.com/bjdag1234/SEVPNsetup/edit/master/tnt.txt
-wget https://github.com/bjdag1234/SEVPNsetup/edit/master/udp.txt
-vpncmd 127.0.0.1:5555 /SERVER /CMD:OpenVpnMakeConfig openvpn
+wget -O /usr/bin/sprunge https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/scrunge.sh
+chmod +x /usr/bin/spruunge
+wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/globe.txt
+wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/tnt.txt
+wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/udp.txt
+vpncmd 127.0.0.1:5555 /SERVER /PASSWORD:vpnserver /CMD:OpenVpnMakeConfig openvpn
 unzip openvpn.zip
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 GLOBE_MGC="$(cat globe.txt)"
@@ -56,14 +57,19 @@ sed -i "s#<ca>#$GLOBE_MGC#" *tcp_globe_mgc.ovpn
 sed -i "s#<ca>#$TNT#" *tcp_tnt.ovpn
 sed -i "s#<ca>#$GLOBE_INET#" *udp_globe_inet.ovpn
 
+wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/getconfig.sh
+rm -f *.txt
+rm -f *.pdf
+
 clear
 echo "\033[0;34mFinished Installing SofthEtherVPN."
 echo "\033[1;34m"
 echo "Go to the these urls to get your OpenVPN config file"
 echo "\033[1;33m"
-cat *tcp_globe*.ovpn | ./scrunge.sh
-cat *tcp_tnt*.ovpn | ./scrunge.sh
-cat *udp*.ovpn | ./scrunge.sh
+cat *tcp_globe*.ovpn | sprunge
+cat *tcp_tnt*.ovpn | sprunge
+cat *udp*.ovpn | sprunge
+rm -f *.ovpn
 echo "\033[1;34m"
 echo "Don't forget to make a text file named account.txt to put your username"
 echo "and your password, first line username. 2nd line password."
