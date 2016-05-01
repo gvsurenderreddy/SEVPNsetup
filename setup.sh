@@ -6,25 +6,28 @@ echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
 apt-get install -y unzip curl git dnsmasq bc make gcc openssl build-essential upstart-sysv iptables-persistent softether-vpncmd softether-vpnserver
 
+service softether_vpn stop
 update-rc.d softether_vpnserver remove
 rm -f /etc/init.d/softether_vpnserver
-wget -O /etc/init.d/softether_vpnserver https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/vpnserver.init
+wget -O /etc/init.d/softether_vpnserver https://github.com/bjdag1234/SEVPNsetup/edit/master/vpnserver.init
 chmod +x /etc/init.d/softether_vpnserver
 update-rc.d softether_vpnserver defaults
 
-wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/iptables-vpn.sh
+wget https://github.com/bjdag1234/SEVPNsetup/edit/master/iptables-vpn.sh
+chmod +x iptables-vpn.sh
 sh iptables-vpn.sh
 
-wget -O /etc/dnsmasq.conf https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/dnsmasq.conf
-wget -O /opt/vpnserver/vpn_server.config https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/vpn_server.config
-service softether-vpnserver restart
+wget -O /etc/dnsmasq.conf https://github.com/bjdag1234/SEVPNsetup/edit/master/dnsmasq.conf
+service softether_vpn stop
+wget -O /opt/vpnserver/vpn_server.config https://github.com/bjdag1234/SEVPNsetup/edit/master/vpn_server.config
+service softether-vpnserver start
 service dnsmasq restart
 
-wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/scrunge.sh
+wget https://github.com/bjdag1234/SEVPNsetup/edit/master/scrunge.sh
 chmod +x scrunge.sh
-wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/globe.txt
-wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/tnt.txt
-wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/udp.txt
+wget https://github.com/bjdag1234/SEVPNsetup/edit/master/globe.txt
+wget https://github.com/bjdag1234/SEVPNsetup/edit/master/tnt.txt
+wget https://github.com/bjdag1234/SEVPNsetup/edit/master/udp.txt
 vpncmd 127.0.0.1:5555 /SERVER /CMD:OpenVpnMakeConfig openvpn
 unzip openvpn.zip
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
