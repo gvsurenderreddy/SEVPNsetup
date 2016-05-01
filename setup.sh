@@ -20,9 +20,10 @@ rm -f iptables-vpn.sh
 
 wget -O /etc/dnsmasq.conf https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/dnsmasq.conf
 wget vpn_server.config https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/vpn_server.config
-vpncmd 127.0.0.1:5555 /SERVER /CMD:ConfigSet vpn_server
+vpncmd 127.0.0.1:5555 /SERVER /CMD:ConfigSet vpn_server.config
 service vpnserver restart
 service dnsmasq restart
+rm -f vpn_server.config
 
 wget -O /usr/bin/sprunge https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/scrunge.sh
 chmod 755 /usr/bin/sprunge
