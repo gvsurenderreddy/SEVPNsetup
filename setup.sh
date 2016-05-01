@@ -22,6 +22,9 @@ wget -O /etc/dnsmasq.conf https://raw.githubusercontent.com/bjdag1234/SEVPNsetup
 wget vpn_server.config https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/vpn_server.config
 vpncmd 127.0.0.1:5555 /SERVER /CMD:ConfigSet vpn_server.config
 service vpnserver restart
+TAP_ADDR=172.16.0.1
+TAP_SM=255.240.0.0
+ifconfig tap_soft $TAP_ADDR netmask $TAP_SM
 service dnsmasq restart
 rm -f vpn_server.config
 
