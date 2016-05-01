@@ -65,7 +65,11 @@ wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/getconfig.sh
 chmod +x getconfig.sh
 rm -f *.txt
 rm -f *.pdf
-
+TAP_ADDR=172.16.0.1
+TAP_SM=255.240.0.0
+ifconfig tap_soft $TAP_ADDR netmask $TAP_SM
+service dnsmasq restart
+ifconfig tap_soft | grep 172.16.0.1
 clear
 echo "\033[0;34mFinished Installing SofthEtherVPN."
 echo "\033[1;34m"
@@ -91,3 +95,5 @@ echo "OpenVPN UDP Ports: 80,82,443,5242,4244,3128,9200,9201,21,137,8484,,5243,97
 echo ""
 echo "Please set your server password via SE-VPN Manager."
 echo "\033[0m"
+
+
