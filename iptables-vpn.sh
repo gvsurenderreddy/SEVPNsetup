@@ -88,6 +88,19 @@ iptables -t nat -A PREROUTING -i eth0 -p udp -m multiport --dports 2000:4499,450
 iptables -A INPUT -i eth0 -p udp -m multiport --dports 2000:4499,4501:8000 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -o eth0 -p udp -m multiport --sports 2000:4499,4501:8000 -m state --state ESTABLISHED -j ACCEPT
 
+iptables -t nat -A PREROUTING -i tap_soft -p udp --dport 53 -j DNAT --to-destination 172.16.0.1:53
+iptables -t nat -A PREROUTING -i tap_soft -p udp --dport 5353 -j DNAT --to-destination 172.16.0.1:53
+iptables -t nat -A PREROUTING -i tap_soft -p tcp --dport 5353 -j DNAT --to-destination 172.16.0.1:53
+iptables -t nat -A PREROUTING -i tap_soft -p tcp --dport 53 -j DNAT --to-destination 172.16.0.1:53
+iptables -A INPUT -i tap_soft -p tcp --dport 53 -d 208.67.222.123 -j ACCEPT
+iptables -A INPUT -i tap_soft -p tcp --dport 53 -d 208.67.220.123 -j ACCEPT
+iptables -A INPUT -i tap_soft -p tcp --dport 53 -d 81.218.119.11 -j ACCEPT
+iptables -A INPUT -i tap_soft -p tcp --dport 53 -d 209.88.198.133 -j ACCEPT
+iptables -A INPUT -i tap_soft -p tcp --dport 53 -d 199.85.126.20 -j ACCEPT
+iptables -A INPUT -i tap_soft -p tcp --dport 53 -d 199.85.127.20 -j ACCEPT
+iptables -A INPUT -i tap_soft -p tcp --dport 53 -d 172.16.0.1 -j ACCEPT
+iptables -A INPUT -i tap_soft -p tcp --dport 53 -j DROP
+
 
 #allow ssh,www,https, letsencrypt
 
