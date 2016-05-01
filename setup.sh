@@ -25,7 +25,7 @@ service vpnserver restart
 service dnsmasq restart
 
 wget -O /usr/bin/sprunge https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/scrunge.sh
-chmod +x /usr/bin/spruunge
+chmod 755 /usr/bin/sprunge
 wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/globe.txt
 wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/tnt.txt
 wget https://raw.githubusercontent.com/bjdag1234/SEVPNsetup/master/udp.txt
